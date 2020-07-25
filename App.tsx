@@ -1,23 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import 'fontsource-roboto';
+
+import { activateKeepAwake } from 'expo-keep-awake';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 
-export default function App() {
-  const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
+export default function App(): ReactElement | null {
+    const isLoadingComplete = useCachedResources();
+    const colorScheme = useColorScheme();
+    activateKeepAwake();
 
-  if (!isLoadingComplete) {
-    return null;
-  } else {
+    if (!isLoadingComplete) {
+        return null;
+    } 
     return (
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
-      </SafeAreaProvider>
+        <SafeAreaProvider>
+            <Navigation colorScheme={colorScheme} />
+            <StatusBar />
+        </SafeAreaProvider>
     );
-  }
+  
 }
