@@ -1,0 +1,110 @@
+{
+    "parser": "@typescript-eslint/parser",  // Specifies the ESLint parser
+    "plugins": ["@typescript-eslint", "prettier", "jest"],
+    "extends": [
+        "airbnb-typescript",
+        "airbnb/hooks",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:jest/recommended",
+        "prettier",
+        "prettier/react",
+        "prettier/@typescript-eslint"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "project": "./tsconfig.json"
+    },
+    "env": {
+        "browser": true
+    },
+    "rules": {
+        "object-curly-spacing": ["error", "always"],
+        "comma-dangle": ["error", {
+            "arrays": "never",
+            "objects": "never",
+            "imports": "never",
+            "exports": "never",
+            "functions": "never"
+        }],
+        "lines-between-class-members": ["error", "always"],
+        "import/prefer-default-export": "off",
+        "max-classes-per-file": "off",
+        "padded-blocks": "off",
+        "indent": ["error", 4, {"SwitchCase": 1}],
+        "max-len": ["error", {"code": 200}],
+        "function-paren-newline": ["error", "never"],
+        "quote-props": ["error", "as-needed"],
+        "operator-linebreak": ["error", "after"],
+        "arrow-parens": [2, "as-needed", {"requireForBlockBody": true}],
+
+        // Have to turn this off as even though the constructor may not have code - variables are injected into local variables.
+        "no-useless-constructor": "off",
+        "no-empty-function": "off",
+        "class-methods-use-this": "off",
+
+        "no-console": ["error", { "allow": ["warn", "error"]}],
+        "@typescript-eslint/no-explicit-any": "off",
+        "no-plusplus": "off",
+
+        // turn off this rule if a spec.ts file.
+        "key-spacing": ["error", {"beforeColon": false}],
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+        "@typescript-eslint/quotes": [
+            "warn",
+            "single"
+        ],
+        "@typescript-eslint/semi": [
+            "warn",
+            "always"
+        ],
+        // Todo
+        "react/destructuring-assignment": "off",
+        "@typescript-eslint/no-use-before-define": "off",
+        "no-param-reassign": "off",
+        "no-magic-numbers": "off",
+        "react/no-unused-prop-types": "off",
+        "react/prop-types": [2, {
+            "ignore": ["children"]
+        }],
+        "react/jsx-props-no-spreading": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/explicit-function-return-type": 2,
+        "@typescript-eslint/explicit-member-accessibility": ["error",
+            {
+                "accessibility": "explicit",
+                "overrides": {
+                    "constructors": "off"
+                }
+            }
+        ],
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "ts": "never",
+                "js": "never",
+                "jsx": "never",
+                "tsx": "never"
+            }
+        ]
+    },
+    "overrides": [
+        {
+            "files": ["**/*.spec.ts", "**/*.mock.ts"],
+            "rules": {
+                "no-magic-numbers": "off",
+                "no-unused-vars": "off",
+                "@typescript-eslint/no-unused-vars": "off",
+                "@typescript-eslint/explicit-function-return-type": "off"
+            }
+        },
+        {
+            "files": ["**/polyfills.ts"],
+            "rules": {
+                "spaced-comment": "off",
+                "no-multi-spaces": "off"
+            }
+        }
+
+    ]
+}
