@@ -1,6 +1,7 @@
-import React, { ReactElement } from 'react';
-import { Avatar, Button, ListItem } from '@ui-kitten/components';
+import React, {ReactElement, useEffect, useState} from 'react';
+import {Avatar, Button, ListItem, Spinner} from '@ui-kitten/components';
 import { LivePrice } from '../interfaces/LivePrice';
+import Toast from "react-native-simple-toast";
 
 const InstallButton = (props: any): ReactElement => (
     <Button size='small'>
@@ -20,11 +21,14 @@ const ItemImage = (props: any): ReactElement => {
     );
 };
 
-export const LivePriceRow = ({ item, index }: { item: LivePrice, index: number}): ReactElement => (
-    <ListItem
-        title={item.symbol}
-        description={item.price}
-        accessoryLeft={ItemImage}
-        accessoryRight={InstallButton}
-    />
-);
+export function LivePriceRow({ item, index }: { item: LivePrice, index: number}): ReactElement {
+
+    return (
+            <ListItem
+                title={item.symbol}
+                description={item.price + ' ' + item.percentChange.toFixed(2)}
+                accessoryLeft={ItemImage}
+                accessoryRight={InstallButton}
+            />
+    )
+}

@@ -24,11 +24,9 @@ export default function App(): ReactElement | null {
     return (
         <>
             <IconRegistry icons={EvaIconsPack} />
-            <SafeAreaView style={{ flex: 1 }} >
                 <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
                     <AppNavigator />
                 </ApplicationProvider>
-            </SafeAreaView>
         </>
     );
   

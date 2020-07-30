@@ -32,9 +32,7 @@ const TabNavigator = (): ReactElement => (
 );
 
 export const AppNavigator = (): ReactElement => (
-    <NavigationContainer>
-        <SafeAreaView style={{ flex: 1 }}>
+    <NavigationContainer >
             <TabNavigator />
-        </SafeAreaView>
     </NavigationContainer>
 );

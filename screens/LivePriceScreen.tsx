@@ -8,8 +8,6 @@ import { fetchOkCoinLivePrice } from '../api/fetchOkCoinTicker';
 export function LivePriceScreen(): ReactElement {
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <LivePriceList exchange={Exchanges.OKCOIN} fetchLivePrice={fetchOkCoinLivePrice}/>
-        </SafeAreaView>
+        <LivePriceList exchange={Exchanges.OKCOIN} fetchLivePrice={fetchOkCoinLivePrice}/>
     );
 }

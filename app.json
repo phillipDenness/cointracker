@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "AwesomeProject",
-    "slug": "AwesomeProject",
+    "name": "CoinTracker",
+    "slug": "CoinTracker",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -18,11 +18,16 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
-    },
     "web": {
       "favicon": "./assets/images/favicon.png"
+    },
+    "ios": {
+      "bundleIdentifier": "com.phillip.denness.cointracker",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.phillip.denness.cointracker",
+      "versionCode": 1
     }
   }
 }
