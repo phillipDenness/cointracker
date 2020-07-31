@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "716413857292",
+    "firebase_url": "https://cointracker-ad133.firebaseio.com",
+    "project_id": "cointracker-ad133",
+    "storage_bucket": "cointracker-ad133.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:716413857292:android:33784ef59fbd8701c34829",
+        "android_client_info": {
+          "package_name": "com.phillip.denness.cointracke"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "716413857292-hnae21htj7foi7o74l4pfv3ed9qmehq8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvXGSKIuAI2XXACqsVFDZwub4vp5tzznE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "716413857292-hnae21htj7foi7o74l4pfv3ed9qmehq8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -27,6 +27,8 @@
     },
     "android": {
       "package": "com.phillip.denness.cointracker",
+      "googleServicesFile": "./google-services.json",
+      "useNextNotificationsApi": true,
       "versionCode": 1
     }
   }
