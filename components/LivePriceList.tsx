@@ -1,11 +1,11 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import Toast from 'react-native-simple-toast';
-import {SafeAreaViewComponent, StyleSheet, View} from 'react-native';
-import { Card, Divider, List, Spinner, Text } from '@ui-kitten/components';
+import { StyleSheet } from 'react-native';
+import { Card, List, Spinner, Text } from '@ui-kitten/components';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { LivePrice } from '../interfaces/LivePrice';
 import { LivePriceRow } from './LivePriceRow';
 import { Exchanges } from '../constants/Exchanges';
-import {SafeAreaView} from "react-native-safe-area-context";
 
 
 export function LivePriceList({ exchange, fetchLivePrice }: { exchange: Exchanges, fetchLivePrice: any }): ReactElement {
@@ -19,12 +19,11 @@ export function LivePriceList({ exchange, fetchLivePrice }: { exchange: Exchange
                 const productIds = ['BTC-EUR', 'ETH-EUR'];
 
                 const livePrices = await Promise.all(productIds.map(async (productId: string) => {
-                    const livePrice: LivePrice = await fetchLivePrice(productId);
-                    return livePrice;
+                    return fetchLivePrice(productId);
                 }));
 
                 Toast.show(JSON.stringify(livePrices));
-                setLivePrice(livePrices)
+                setLivePrice(livePrices);
             } catch (error) {
                 console.error(`Error with request ${error}`);
                 Toast.show(`Error with request ${error}`, 200);
@@ -38,18 +37,18 @@ export function LivePriceList({ exchange, fetchLivePrice }: { exchange: Exchange
     return (
         <>
             <SafeAreaView>
-            <Card>
-                <Text style={styles.topContainer} category="h6">
-                    {exchange} Exchange
-                </Text>
-            </Card>
-            {
-                isLoading || !livePrice ? <Spinner/> : (
-                    <List
-                        data={livePrice}
-                        renderItem={LivePriceRow}
-                    />)
-            }
+                <Card>
+                    <Text style={styles.topContainer} category="h6">
+                        {exchange} Exchange
+                    </Text>
+                </Card>
+                {
+                    isLoading || !livePrice ? <Spinner/> : (
+                        <List
+                            data={livePrice}
+                            renderItem={LivePriceRow}
+                        />)
+                }
             </SafeAreaView>
         </>
     );

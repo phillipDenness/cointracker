@@ -1,38 +1,83 @@
-import React, { ReactElement } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { TabBar, Tab, Layout, Text } from '@ui-kitten/components';
-
+import React, { ReactElement, useEffect, useState } from 'react';
+import { NavigationContainer, RouteProp , useIsFocused } from '@react-navigation/native';
+import { TabBar, Tab, Layout, Text, TabElement } from '@ui-kitten/components';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { SafeAreaView } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+
 import { LivePriceScreen } from '../screens/LivePriceScreen';
 
-const { Navigator, Screen } = createBottomTabNavigator();
+const { Navigator, Screen } = createBottomTabNavigator<any>();
 
 
-const OrdersScreen = (): ReactElement => (
-    <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text category='h1'>ORDERS</Text>
-    </Layout>
-);
+const AlertsScreen = (): ReactElement => {
+    const [state, setState] = useState([]);
+    const isFocused = useIsFocused();
 
-const TopTabBar = ({ navigation, state }: { navigation: any, state: any }): any => (
-    <TabBar
-        selectedIndex={state.index}
-        onSelect={(index): void => navigation.navigate(state.routeNames[index])}>
-        <Tab title='LIVE PRICES'/>
-        <Tab title='ORDERS'/>
-    </TabBar>
-);
+    useEffect(() => {
+        const getData = async (): Promise<void> => {
+            try {
+                const storage = await AsyncStorage.getItem('@storage_Key');
+                if(storage !== null) {
+                    setState(JSON.parse(storage));
+                }
+            } catch(e) {
+                console.error(e);
+            }
+        };
+        getData();
+    }, [isFocused]);
 
-const TabNavigator = (): ReactElement => (
-    <Navigator tabBar={ (props: any): any => <TopTabBar {...props} />}>
-        <Screen name='Live Prices' component={LivePriceScreen}/>
-        <Screen name='Orders' component={OrdersScreen}/>
+    return (<Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text category='h1'>{state}</Text>
+    </Layout>);
+};
+
+const BottomTabBar = ({ navigation, state, descriptors }:
+                          { navigation: any, state: any, descriptors: any }): ReactElement => {
+
+    const onTabSelect = (index: number): void => {
+        const selectedTabRoute: string = state.routeNames[index];
+        navigation.navigate(selectedTabRoute);
+    };
+
+    const createNavigationTabForRoute = (route: any): TabElement => {
+        const { options } = descriptors[route.key];
+        return (
+            <Tab
+                key={route.key}
+                title={options.title}
+                icon={options.tabBarIcon}
+            />
+        );
+    };
+
+    return (
+        <TabBar selectedIndex={state.index} onSelect={onTabSelect}>
+            {state.routes.map(createNavigationTabForRoute)}
+        </TabBar>
+    );
+};
+
+export const HomeNavigator = (): React.ReactElement => {
+
+    return (<Navigator tabBar={(props): ReactElement => <BottomTabBar {...props} />}>
+        <Screen
+            name="Live Prices"
+            component={LivePriceScreen}
+            options={{ title: 'Live Prices' }}
+        />
+        <Screen
+            name="Alerts"
+            component={AlertsScreen}
+            options={{ title: 'Alerts' }}
+        />
     </Navigator>
-);
+    );
+};
 
-export const AppNavigator = (): ReactElement => (
-    <NavigationContainer >
-            <TabNavigator />
-    </NavigationContainer>
-);
+export const AppNavigator = (): ReactElement => {
+
+    return (<NavigationContainer>
+        <HomeNavigator />
+    </NavigationContainer>);
+};

@@ -1,5 +1,4 @@
 import React, { ReactElement } from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
 import { LivePriceList } from '../components/LivePriceList';
 import { Exchanges } from '../constants/Exchanges';
 import { fetchOkCoinLivePrice } from '../api/fetchOkCoinTicker';
