@@ -5,32 +5,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { LivePriceScreen } from '../screens/LivePriceScreen';
+import {AlertsScreen} from "../screens/AlertsScreen";
 
 const { Navigator, Screen } = createBottomTabNavigator<any>();
-
-
-const AlertsScreen = (): ReactElement => {
-    const [state, setState] = useState([]);
-    const isFocused = useIsFocused();
-
-    useEffect(() => {
-        const getData = async (): Promise<void> => {
-            try {
-                const storage = await AsyncStorage.getItem('@storage_Key');
-                if(storage !== null) {
-                    setState(JSON.parse(storage));
-                }
-            } catch(e) {
-                console.error(e);
-            }
-        };
-        getData();
-    }, [isFocused]);
-
-    return (<Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text category='h1'>{state}</Text>
-    </Layout>);
-};
 
 const BottomTabBar = ({ navigation, state, descriptors }:
                           { navigation: any, state: any, descriptors: any }): ReactElement => {
