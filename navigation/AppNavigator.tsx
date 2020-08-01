@@ -1,11 +1,9 @@
-import React, { ReactElement, useEffect, useState } from 'react';
-import { NavigationContainer, RouteProp , useIsFocused } from '@react-navigation/native';
-import { TabBar, Tab, Layout, Text, TabElement } from '@ui-kitten/components';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import AsyncStorage from '@react-native-community/async-storage';
-
-import { LivePriceScreen } from '../screens/LivePriceScreen';
-import {AlertsScreen} from "../screens/AlertsScreen";
+import React, {ReactElement} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {Tab, TabBar, TabElement} from '@ui-kitten/components';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {LivePriceScreen} from '../screens/LivePriceScreen';
+import {AlertScreen} from '../screens/AlertScreen';
 
 const { Navigator, Screen } = createBottomTabNavigator<any>();
 
@@ -35,17 +33,19 @@ const BottomTabBar = ({ navigation, state, descriptors }:
     );
 };
 
-export const HomeNavigator = (): React.ReactElement => {
+export const TabNavigator = (): React.ReactElement => {
 
-    return (<Navigator tabBar={(props): ReactElement => <BottomTabBar {...props} />}>
+    return (<Navigator
+        tabBar={(props): ReactElement => <BottomTabBar {...props} />}
+    >
         <Screen
-            name="Live Prices"
+            name="Market"
             component={LivePriceScreen}
-            options={{ title: 'Live Prices' }}
+            options={{ title: 'Market' }}
         />
         <Screen
             name="Alerts"
-            component={AlertsScreen}
+            component={AlertScreen}
             options={{ title: 'Alerts' }}
         />
     </Navigator>
@@ -55,6 +55,6 @@ export const HomeNavigator = (): React.ReactElement => {
 export const AppNavigator = (): ReactElement => {
 
     return (<NavigationContainer>
-        <HomeNavigator />
+        <TabNavigator />
     </NavigationContainer>);
 };

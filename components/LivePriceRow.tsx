@@ -1,31 +1,18 @@
-import React, { ReactElement } from 'react';
-import { Avatar, Button, ListItem } from '@ui-kitten/components';
+import React, {ReactElement} from 'react';
+import {Avatar, Button, ListItem} from '@ui-kitten/components';
 import AsyncStorage from '@react-native-community/async-storage';
 import Toast from 'react-native-simple-toast';
-import * as BackgroundFetch from 'expo-background-fetch';
-import * as TaskManager from 'expo-task-manager';
-import * as Permissions from 'expo-permissions';
-import { LivePrice } from '../interfaces/LivePrice';
-import { LOCATION_TASK_NAME } from '../background/BackgroundTask';
+import {useNavigation} from '@react-navigation/native';
+import {LivePrice} from '../interfaces/LivePrice';
 
-const AlertButton = (): ReactElement => {
+const AlertButton = ({ item }: { item: LivePrice }): ReactElement => {
 
+    const navigation = useNavigation();
     const onPress = async (): Promise<void> => {
-        storeData('test');
-
-        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS,
-            Permissions.USER_FACING_NOTIFICATIONS);
-
-        if (status === 'granted') {
-            try {
-                await BackgroundFetch.registerTaskAsync(LOCATION_TASK_NAME, {
-                    minimumInterval: 30
-                });
-                console.log('Task registers');
-            } catch (e) {
-                console.error(e);
-            }
-        }
+        // await storeData(item.symbol);
+        navigation.navigate('AlertForm', {
+            livePrice: item
+        });
     };
 
     const storeData = async (value: string): Promise<void> => {
@@ -67,7 +54,7 @@ export function LivePriceRow({ item, index }: { item: LivePrice, index: number})
             title={item.symbol}
             description={`${item.price  } 24 Hour ${  item.percentChange.toFixed(2)}`}
             accessoryLeft={ItemImage}
-            accessoryRight={AlertButton}
+            accessoryRight={(): ReactElement => <AlertButton item={item}/>}
         />
     );
 }

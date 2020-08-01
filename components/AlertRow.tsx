@@ -1,8 +1,5 @@
-import React, { ReactElement } from 'react';
-import { Avatar, Button, ListItem } from '@ui-kitten/components';
-import AsyncStorage from '@react-native-community/async-storage';
-import Toast from 'react-native-simple-toast';
-import { LivePrice } from '../interfaces/LivePrice';
+import React, {ReactElement} from 'react';
+import {Avatar, ListItem} from '@ui-kitten/components';
 
 
 const ItemImage = (props: any): ReactElement => {
@@ -22,7 +19,7 @@ export function AlertRow({ item, index }: { item: string, index: number}): React
     return (
         <ListItem
             title={item}
-            description={`Alert is created`}
+            description="PriceAlert is created"
             accessoryLeft={ItemImage}
         />
     );

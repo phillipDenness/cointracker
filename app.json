@@ -26,6 +26,7 @@
       "buildNumber": "1.0.0",
       "infoPlist": {
         "UIBackgroundModes": [
+          "location",
           "fetch"
         ]
       }

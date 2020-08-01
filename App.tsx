@@ -1,82 +1,72 @@
-import { StatusBar } from 'expo-status-bar';
-
-import { activateKeepAwake } from 'expo-keep-awake';
+import {activateKeepAwake} from 'expo-keep-awake';
 import * as eva from '@eva-design/eva';
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
-import React, { useState, useEffect, useRef, ReactElement } from 'react';
-import { Text, View, Button, Platform } from 'react-native';
-import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import React, {ReactElement, useEffect, useRef, useState} from 'react';
+import {Button, Platform} from 'react-native';
+import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as TaskManager from 'expo-task-manager';
-import { AppNavigator } from './navigation/AppNavigator';
+import {AppNavigator} from './navigation/AppNavigator';
 // eslint-disable-next-line import/no-named-default
-import { default as theme } from './custom-theme.json';
-import useColorScheme from './hooks/useColorScheme';
+import {default as theme} from './custom-theme.json';
 import useCachedResources from './hooks/useCachedResources';
-import { LOCATION_TASK_NAME } from './background/BackgroundTask';
-// Notifications.setNotificationHandler({
-//     handleNotification: async () => ({
-//         shouldShowAlert: true,
-//         shouldPlaySound: false,
-//         shouldSetBadge: false,
-//     }),
-// });
+import {registerFetchTask} from './services/tasks';
+
+const INTERVAL_TASKS = 15;
+
+registerFetchTask('teste', async () => {
+
+    try {
+        const storage = await AsyncStorage.getItem('@storage_Key');
+        if (storage !== null) {
+            console.log(JSON.parse(storage));
+        }
+        console.log('tried');
+    } catch (e) {
+        console.error(e);
+    }
+    console.log('Performing task');
+    fetch('https://webhook.site/b7a03194-0034-4291-8b93-cdd6a8f60156').then(() => {
+        console.log('done');
+    });
+}, INTERVAL_TASKS);
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false
+    })
+});
+
 //
-// export default function App() {
-//     const [expoPushToken, setExpoPushToken] = useState('');
-//     const [notification, setNotification] = useState(false);
-//     const notificationListener = useRef();
-//     const responseListener = useRef();
-//
-//     useEffect(() => {
-//         registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-//
-//         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-//             setNotification(notification);
-//         });
-//
-//         responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-//             console.log(response);
-//         });
-//
-//         return () => {
-//             Notifications.removeNotificationSubscription(notificationListener);
-//             Notifications.removeNotificationSubscription(responseListener);
+// TaskManager.defineTask(LOCATION_TASK_NAME, async () => {
+//     try {
+//         // const receivedNewData: LivePrice = await fetchOkCoinLivePrice('BTC-EUR');
+//         const receivedNewData: LivePrice = {
+//             price: '',
+//             percentChange: 0,
+//             symbol: 'test'
 //         };
-//     }, []);
+//         // locationService.setLocation(receivedNewData);
 //
-//     return (
-//         <View
-//             style={{
-//                 flex: 1,
-//                 alignItems: 'center',
-//                 justifyContent: 'space-around',
-//             }}>
-//             <Text>Your expo push token: {expoPushToken}</Text>
-//             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-//                 <Text>Title: {notification && notification.request.content.title} </Text>
-//                 <Text>Body: {notification && notification.request.content.body}</Text>
-//                 <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
-//             </View>
-//             <Button
-//                 title="Press to Send Notification"
-//                 onPress={async () => {
-//                     await sendPushNotification(expoPushToken);
-//                 }}
-//             />
-//         </View>
-//     );
-// }
-//
+//         console.log(receivedNewData);
+//         return receivedNewData ? BackgroundFetch.Result.NewData : BackgroundFetch.Result.NoData;
+//     } catch (e) {
+//         console.error(e);
+//         return BackgroundFetch.Result.Failed;
+//     }
+// });
 
 export default function App(): ReactElement | null {
     const isLoadingComplete = useCachedResources();
     const [ expoPushToken, setExpoPushToken ] = useState<string>('');
     const [notification, setNotification] = useState<Notifications.Notification>();
     const notificationListener = useRef();
+    const responseListener = useRef();
 
     activateKeepAwake();
 
@@ -93,10 +83,19 @@ export default function App(): ReactElement | null {
             setNotification(notif);
         });
 
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
+            console.log(response);
+        });
+
         return (): void => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             Notifications.removeNotificationSubscription(notificationListener);
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            Notifications.removeNotificationSubscription(responseListener);
         };
     }, []);
 
@@ -112,9 +111,7 @@ export default function App(): ReactElement | null {
             <Button
                 title="Press to Send Notification & delete local storage"
                 onPress={async (): Promise<void> => {
-                    await TaskManager.unregisterTaskAsync(LOCATION_TASK_NAME);
-                    const isRegistered = await TaskManager.isTaskRegisteredAsync(LOCATION_TASK_NAME);
-                    console.log(isRegistered);
+                    await TaskManager.unregisterAllTasksAsync();
                     await AsyncStorage.removeItem('@storage_Key');
                     await sendPushNotification(expoPushToken);
                 }}
@@ -174,4 +171,5 @@ async function registerForPushNotificationsAsync(): Promise<string | undefined> 
     // eslint-disable-next-line consistent-return
     return token;
 }
+
 
