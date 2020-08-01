@@ -2,9 +2,31 @@ import React, { ReactElement } from 'react';
 import { Avatar, Button, ListItem } from '@ui-kitten/components';
 import AsyncStorage from '@react-native-community/async-storage';
 import Toast from 'react-native-simple-toast';
+import * as BackgroundFetch from 'expo-background-fetch';
+import * as TaskManager from 'expo-task-manager';
+import * as Permissions from 'expo-permissions';
 import { LivePrice } from '../interfaces/LivePrice';
+import { LOCATION_TASK_NAME } from '../background/BackgroundTask';
 
-const AlertButton = (props: any): ReactElement => {
+const AlertButton = (): ReactElement => {
+
+    const onPress = async (): Promise<void> => {
+        storeData('test');
+
+        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS,
+            Permissions.USER_FACING_NOTIFICATIONS);
+
+        if (status === 'granted') {
+            try {
+                await BackgroundFetch.registerTaskAsync(LOCATION_TASK_NAME, {
+                    minimumInterval: 30
+                });
+                console.log('Task registers');
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    };
 
     const storeData = async (value: string): Promise<void> => {
         try {
@@ -21,7 +43,7 @@ const AlertButton = (props: any): ReactElement => {
         }
     };
 
-    return (<Button size='small' onPress={(): Promise<void> => storeData('alertId')}>
+    return (<Button size='small' onPress={(): Promise<void> => onPress()}>
         Alert
     </Button>);
 };

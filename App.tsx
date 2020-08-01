@@ -10,12 +10,13 @@ import React, { useState, useEffect, useRef, ReactElement } from 'react';
 import { Text, View, Button, Platform } from 'react-native';
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import AsyncStorage from '@react-native-community/async-storage';
+import * as TaskManager from 'expo-task-manager';
 import { AppNavigator } from './navigation/AppNavigator';
 // eslint-disable-next-line import/no-named-default
 import { default as theme } from './custom-theme.json';
 import useColorScheme from './hooks/useColorScheme';
 import useCachedResources from './hooks/useCachedResources';
-
+import { LOCATION_TASK_NAME } from './background/BackgroundTask';
 // Notifications.setNotificationHandler({
 //     handleNotification: async () => ({
 //         shouldShowAlert: true,
@@ -111,6 +112,9 @@ export default function App(): ReactElement | null {
             <Button
                 title="Press to Send Notification & delete local storage"
                 onPress={async (): Promise<void> => {
+                    await TaskManager.unregisterTaskAsync(LOCATION_TASK_NAME);
+                    const isRegistered = await TaskManager.isTaskRegisteredAsync(LOCATION_TASK_NAME);
+                    console.log(isRegistered);
                     await AsyncStorage.removeItem('@storage_Key');
                     await sendPushNotification(expoPushToken);
                 }}

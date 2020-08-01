@@ -1,4 +1,3 @@
-import Toast from 'react-native-simple-toast';
 import { OkCoinTickerResponse } from '../interfaces/OkCoinTickerResponse';
 import { LivePrice } from '../interfaces/LivePrice';
 
