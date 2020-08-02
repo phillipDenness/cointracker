@@ -14,6 +14,9 @@ import {AppNavigator} from './navigation/AppNavigator';
 import {default as theme} from './custom-theme.json';
 import useCachedResources from './hooks/useCachedResources';
 import {registerFetchTask} from './services/tasks';
+import {PriceAlert} from './interfaces/PriceAlert';
+import {fetchOkCoinLivePrice} from './api/fetchOkCoinTicker';
+import {storeData} from './screens/AlertFormScreen';
 
 const INTERVAL_TASKS = 15;
 
@@ -22,16 +25,28 @@ registerFetchTask('teste', async () => {
     try {
         const storage = await AsyncStorage.getItem('@storage_Key');
         if (storage !== null) {
-            console.log(JSON.parse(storage));
+            const alerts: PriceAlert[] = JSON.parse(storage);
+
+            await Promise.all(alerts
+                .filter(alert => alert.triggerComplete).map(async (alert: PriceAlert) => {
+                    const response = await fetchOkCoinLivePrice(alert.symbol);
+                    let isAlerted;
+                    if (alert.priceAbove !== undefined) {
+                        isAlerted = response.price > alert.priceAbove;
+                    } if (alert.priceBelow !== undefined) {
+                        isAlerted = response.price > alert.priceBelow;
+                    }
+                    if (isAlerted) {
+                        const expoPushToken = await Notifications.getExpoPushTokenAsync();
+                        console.log(`Sending notification ${  isAlerted}`);
+                        await sendPushNotification(expoPushToken.data);
+                        await storeData({ ...alert, triggerComplete: true });
+                    }
+                }));
         }
-        console.log('tried');
     } catch (e) {
         console.error(e);
     }
-    console.log('Performing task');
-    fetch('https://webhook.site/b7a03194-0034-4291-8b93-cdd6a8f60156').then(() => {
-        console.log('done');
-    });
 }, INTERVAL_TASKS);
 
 Notifications.setNotificationHandler({
@@ -42,24 +57,7 @@ Notifications.setNotificationHandler({
     })
 });
 
-//
-// TaskManager.defineTask(LOCATION_TASK_NAME, async () => {
-//     try {
-//         // const receivedNewData: LivePrice = await fetchOkCoinLivePrice('BTC-EUR');
-//         const receivedNewData: LivePrice = {
-//             price: '',
-//             percentChange: 0,
-//             symbol: 'test'
-//         };
-//         // locationService.setLocation(receivedNewData);
-//
-//         console.log(receivedNewData);
-//         return receivedNewData ? BackgroundFetch.Result.NewData : BackgroundFetch.Result.NoData;
-//     } catch (e) {
-//         console.error(e);
-//         return BackgroundFetch.Result.Failed;
-//     }
-// });
+
 
 export default function App(): ReactElement | null {
     const isLoadingComplete = useCachedResources();
@@ -102,6 +100,7 @@ export default function App(): ReactElement | null {
     if (!isLoadingComplete) {
         return null;
     }
+
     return (
         <>
             <IconRegistry icons={EvaIconsPack} />
@@ -122,6 +121,7 @@ export default function App(): ReactElement | null {
 
 // Can use this function below, OR use Expo's Push Notification Tool-> https://expo.io/dashboard/notifications
 async function sendPushNotification(expoPushToken: string): Promise<void> {
+    console.log(expoPushToken);
     const message = {
         to: expoPushToken,
         sound: 'default',

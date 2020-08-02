@@ -3,6 +3,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Card, List, Text} from '@ui-kitten/components';
 import {StyleSheet} from 'react-native';
 import {AlertRow} from './AlertRow';
+import {PriceAlert} from '../interfaces/PriceAlert';
 
 const styles = StyleSheet.create({
     topContainer: {
@@ -11,7 +12,7 @@ const styles = StyleSheet.create({
     }
 });
 
-export function AlertList({ alerts }: { alerts: string[] }): ReactElement {
+export function AlertList({ alerts }: { alerts: PriceAlert[] }): ReactElement {
 
     return (
         <SafeAreaView>

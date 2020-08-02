@@ -1,8 +1,9 @@
-import {Exchanges} from '../constants/Exchanges';
+import { Exchanges } from '../constants/Exchanges';
 
 export interface PriceAlert {
     symbol: string,
     exchange: Exchanges,
-    priceAbove: number | undefined,
-    priceBelow: number | undefined
+    priceAbove: string | undefined,
+    priceBelow: string | undefined,
+    triggerComplete: boolean
 }

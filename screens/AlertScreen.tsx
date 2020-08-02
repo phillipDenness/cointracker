@@ -1,9 +1,10 @@
-import React, {ReactElement, useEffect, useState} from "react";
-import {useIsFocused} from "@react-navigation/native";
-import AsyncStorage from "@react-native-community/async-storage";
-import {AlertsList} from "../components/AlertsList";
+import React, {ReactElement, useEffect, useState} from 'react';
+import {useIsFocused} from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
+import {AlertList} from '../components/AlertList';
 
-export const AlertsScreen = (): ReactElement => {
+
+export const AlertScreen = (): ReactElement => {
     const [state, setState] = useState([]);
     const isFocused = useIsFocused();
 
@@ -22,5 +23,5 @@ export const AlertsScreen = (): ReactElement => {
     }, [isFocused]);
 
     return (
-        <AlertsList alerts={state} />);
+        <AlertList alerts={state} />);
 };
