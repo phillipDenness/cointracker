@@ -17,6 +17,7 @@ import {registerFetchTask} from './services/tasks';
 import {PriceAlert} from './interfaces/PriceAlert';
 import {fetchOkCoinLivePrice} from './api/fetchOkCoinTicker';
 import {storeData} from './screens/AlertFormScreen';
+import {ORDERS_KEY} from './constants/StorageKeys';
 
 const INTERVAL_TASKS = 15;
 
@@ -112,6 +113,7 @@ export default function App(): ReactElement | null {
                 onPress={async (): Promise<void> => {
                     await TaskManager.unregisterAllTasksAsync();
                     await AsyncStorage.removeItem('@storage_Key');
+                    await AsyncStorage.removeItem(ORDERS_KEY);
                     await sendPushNotification(expoPushToken);
                 }}
             />

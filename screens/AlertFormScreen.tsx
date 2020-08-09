@@ -1,5 +1,5 @@
 import React, {ReactElement, useState} from 'react';
-import {RouteProp, useIsFocused} from '@react-navigation/native';
+import {RouteProp} from '@react-navigation/native';
 import {Button, Card, Divider, Icon, Input, Layout, Radio, RadioGroup, Text} from '@ui-kitten/components';
 import {StyleSheet} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -61,7 +61,6 @@ export const AlertFormScreen = ({ navigation, route }: Props): ReactElement => {
     });
     const [selectedIndex, setSelectedIndex] = React.useState(0);
 
-    const isFocused = useIsFocused();
 
     async function onSubmit(): Promise<void> {
         const isPriceAbove = selectedIndex === 0;
@@ -92,7 +91,7 @@ export const AlertFormScreen = ({ navigation, route }: Props): ReactElement => {
                     selectedIndex={selectedIndex}
                     onChange={(index): void => {
                         console.log(index);
-                        setSelectedIndex(index)
+                        setSelectedIndex(index);
                     }}>
                     <Radio>Is price greater than</Radio>
                     <Radio>Is price less than</Radio>

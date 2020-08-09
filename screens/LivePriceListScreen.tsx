@@ -2,7 +2,7 @@ import React, {ReactElement, useEffect, useState} from 'react';
 import Toast from 'react-native-simple-toast';
 import {List, Spinner} from '@ui-kitten/components';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {CompositeNavigationProp, RouteProp} from '@react-navigation/native';
+import {CompositeNavigationProp, RouteProp, useIsFocused} from '@react-navigation/native';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {LivePrice} from '../interfaces/LivePrice';
 import {LivePriceRow} from '../components/LivePriceRow';
@@ -27,6 +27,7 @@ export function LivePriceListScreen({ route, navigation }: Props): ReactElement 
     const [isLoading, setLoading] = useState(true);
     const [livePrice, setLivePrice] = useState<LivePrice[]>([]);
     const [base, setBase] = useState('EUR');
+    const isFocused = useIsFocused();
     
     useEffect(() => {
         const update = async (): Promise<void> => {
@@ -49,7 +50,7 @@ export function LivePriceListScreen({ route, navigation }: Props): ReactElement 
             }
         };
         update();
-    }, [base, navigation]);
+    }, [base, navigation, isFocused]);
 
     return (
         <>
