@@ -1,23 +1,23 @@
-import {activateKeepAwake} from 'expo-keep-awake';
+import { activateKeepAwake } from 'expo-keep-awake';
 import * as eva from '@eva-design/eva';
-import {EvaIconsPack} from '@ui-kitten/eva-icons';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
-import React, {ReactElement, useEffect, useRef, useState} from 'react';
-import {Button, Platform} from 'react-native';
-import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import { Button, Platform } from 'react-native';
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as TaskManager from 'expo-task-manager';
-import {AppNavigator} from './navigation/AppNavigator';
+import { AppNavigator } from './navigation/AppNavigator';
 // eslint-disable-next-line import/no-named-default
-import {default as theme} from './custom-theme.json';
+import { default as theme } from './custom-theme.json';
 import useCachedResources from './hooks/useCachedResources';
-import {registerFetchTask} from './services/tasks';
-import {PriceAlert} from './interfaces/PriceAlert';
-import {fetchOkCoinLivePrice} from './api/fetchOkCoinTicker';
-import {storeData} from './screens/AlertFormScreen';
-import {ORDERS_KEY} from './constants/StorageKeys';
+import { registerFetchTask } from './services/tasks';
+import { PriceAlert } from './interfaces/PriceAlert';
+import { fetchOkCoinLivePrice } from './api/fetchOkCoinTicker';
+import { storeData } from './screens/AlertFormScreen';
+import { ORDERS_KEY } from './constants/StorageKeys';
 
 const INTERVAL_TASKS = 15;
 

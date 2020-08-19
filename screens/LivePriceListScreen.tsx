@@ -1,13 +1,13 @@
-import React, {ReactElement, useEffect, useState} from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import Toast from 'react-native-simple-toast';
-import {List, Spinner} from '@ui-kitten/components';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {CompositeNavigationProp, RouteProp, useIsFocused} from '@react-navigation/native';
-import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import {LivePrice} from '../interfaces/LivePrice';
-import {LivePriceRow} from '../components/LivePriceRow';
-import {RootStackParamList} from '../navigation/types';
-import {fetchOkCoinLivePrice} from '../api/fetchOkCoinTicker';
+import { List, Spinner } from '@ui-kitten/components';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { CompositeNavigationProp, RouteProp, useIsFocused } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { LivePrice } from '../interfaces/LivePrice';
+import { LivePriceRow } from '../components/LivePriceRow';
+import { RootStackParamList } from '../navigation/types';
+import { fetchOkCoinLivePrice } from '../api/fetchOkCoinTicker';
 
 
 type LivePriceScreenRouteProp = RouteProp<RootStackParamList, 'LivePriceList'>;

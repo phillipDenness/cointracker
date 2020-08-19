@@ -1,6 +1,6 @@
-import React, {ReactElement} from 'react';
-import {Card, ListItem, Text} from '@ui-kitten/components';
-import {Order} from '../interfaces/Order';
+import React, { ReactElement } from 'react';
+import { Card, ListItem, Text } from '@ui-kitten/components';
+import { Order } from '../interfaces/Order';
 
 
 export function OrderRow({ item, index }: { item: Order, index: number}): ReactElement {
