@@ -1,6 +1,6 @@
 import React, {ReactElement} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Card, List, Text} from '@ui-kitten/components';
+import {List} from '@ui-kitten/components';
 import {StyleSheet} from 'react-native';
 import {AlertRow} from './AlertRow';
 import {PriceAlert} from '../interfaces/PriceAlert';
@@ -16,11 +16,6 @@ export function AlertList({ alerts }: { alerts: PriceAlert[] }): ReactElement {
 
     return (
         <SafeAreaView>
-            <Card>
-                <Text style={styles.topContainer} category="h6">
-                    Alerts
-                </Text>
-            </Card>
             <List
                 data={alerts}
                 renderItem={AlertRow}

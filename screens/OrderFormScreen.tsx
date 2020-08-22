@@ -1,11 +1,11 @@
-import React, { ReactElement, useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, {ReactElement, useEffect, useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Button, Card, Divider, IndexPath, Input, Layout, Select, SelectItem, Text } from '@ui-kitten/components';
-import { StyleSheet } from 'react-native';
+import {Button, Card, Divider, IndexPath, Input, Layout, Select, SelectItem, Text} from '@ui-kitten/components';
+import {StyleSheet} from 'react-native';
 import Toast from 'react-native-simple-toast';
-import { Order } from '../interfaces/Order';
-import { ORDERS_KEY } from '../constants/StorageKeys';
+import {Order} from '../interfaces/Order';
+import {ORDERS_KEY} from '../constants/StorageKeys';
 
 const styles = StyleSheet.create({
     layout: {
@@ -105,7 +105,7 @@ export const OrderFormScreen = (): ReactElement => {
         <Card>
             <Layout style={styles.layout}>
                 <Text category='h6'>
-                        Register order
+                        Create Order
                 </Text>
             </Layout>
             <Layout style={styles.container} level='1'>

@@ -1,6 +1,6 @@
 import React, {ReactElement} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {Icon, Tab, TabBar, TabElement} from '@ui-kitten/components';
+import {Avatar, Icon, Tab, TabBar, TabElement} from '@ui-kitten/components';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -60,7 +60,6 @@ export const TabNavigator = (): React.ReactElement => {
 
 export const DrawerNavigator = (): ReactElement => (
     <Drawer.Navigator
-        openByDefault
         initialRouteName="Market"
     >
         <Drawer.Screen
@@ -81,6 +80,15 @@ export const DrawerNavigator = (): ReactElement => (
     </Drawer.Navigator>
 );
 
+function LogoTitle({ props }: any): ReactElement {
+    return (
+        <Avatar
+            {...props}
+            style={[{ tintColor: null }]}
+            source={require('../assets/images/btc.png')}
+        />
+    );
+}
 
 export const AppNavigator = (): ReactElement => {
     const BellIcon = (props: any): ReactElement => (
@@ -93,6 +101,7 @@ export const AppNavigator = (): ReactElement => {
                 name="Home"
                 component={DrawerNavigator}
                 options={{
+                    headerTitle: props => <LogoTitle {...props} />,
                     headerLeft: BellIcon
                 }}
             />
